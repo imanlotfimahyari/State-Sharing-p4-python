@@ -9,10 +9,10 @@ by help of the P4 language and the PUBLISH/SUBSCRIBE scheme.
 It has two modules:
 
 1. By using the internal registers
-* [Register-based solution](./pubsub_register)
+* [Register-based solution](./pubsub/pubsub_register)
 
 2. By using the P4Runtime and the embedded-local Controller and tables
-* [Embedded-controller solution](./pubsub_embedded)
+* [Embedded-controller solution](./pubsub/pubsub_embedded)
 
 
 ## Presentation
@@ -24,7 +24,7 @@ The environment for running is captured from the [P4 tutorial](https://github.co
 ## Obtaining required software
 
 To run the proposed solutions, you will need to either build a
-virtual machine or install several dependencies. 
+virtual machine or install several dependencies.
 
 To build the virtual machine:
 - Install [Vagrant](https://vagrantup.com) and [VirtualBox](https://virtualbox.org)
