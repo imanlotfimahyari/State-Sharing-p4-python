@@ -50,7 +50,7 @@ We can use the following topologies for this design.
 
 3. A triangular topology with three switches, which is referred
    to as triangular-topo:
-   ![triangular-topo](./triangular-topo/triangular-topo.png)
+   ![triangular-topo](./triangle-topo/triangle-topo.png)
 
 To use any of them, one should replace the topology address mentioned
 in the `MakeFile` with the desired topology.
