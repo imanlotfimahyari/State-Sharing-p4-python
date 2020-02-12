@@ -28,6 +28,8 @@ class P4RuntimeSwitch(P4Switch):
     "BMv2 switch with gRPC support"
     next_grpc_port = 50051
     next_thrift_port = 9090
+    # default packet-in / packet-out port usage
+    cpu_port = 255
 
     def __init__(self, name, sw_path = None, json_path = None,
                  grpc_port = None,
@@ -134,4 +136,3 @@ class P4RuntimeSwitch(P4Switch):
             error("P4 switch {} did not start correctly.\n".format(self.name))
             exit(1)
         info("P4 switch {} has been started.\n".format(self.name))
-
