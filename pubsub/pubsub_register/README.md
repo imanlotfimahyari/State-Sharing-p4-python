@@ -64,8 +64,6 @@ fields. We encourage you to take a look at it.
 
 ## Step 1: Start the environment with the desired topology
 
-
-
 The REPLICA controller should be started in the H
 The directory with this README also contains a skeleton P4 program,
 `basic.p4`, which initially drops all packets. Your job will be to
@@ -82,7 +80,7 @@ Start by bringing up our structure in the Mininet to test its behavior.
    * start the single-topo in Mininet and configure the switch with
    the appropriate P4 program + table entries, registers, and
    * configure all hosts with the commands listed in
-   [single-topo/topology.json](./single-topo/topology.json)
+   `single-topo/topology.json`
 
 2. You should now see a Mininet command prompt. Start with opening
    one terminal for each host in the topology:
@@ -90,33 +88,31 @@ Start by bringing up our structure in the Mininet to test its behavior.
    mininet> xterm h1 h2 h3 h4
    ```
 
-3. Start the REPLICA controller in h4 by running the
+3. Start the REPLICA controller in `h4` by running the
    `./REPLICA_controller.py`, and start one MIDDLE-WARE in every
-   other hosts(h1, h2 and h3) by running `./pubsub_MW.py` in each of
+   other hosts`(h1, h2 and h3)` by running `./pubsub_MW.py` in each of
    them. now you have a ready system for start the main goal.
 
-4. Except for the h4, open one terminal in each other hosts(h1, h2
-   and h3) by doing in the Mininet prompt:
+4. Except for the `h4`, open one terminal in each other hosts`(h1, h2
+   and h3)` by doing in the Mininet prompt:
    ```bash
    mininet> xterm h1 h2 h3
    ```
 
 5. For simplicity, in each of the three new terminals, start the
-   PUBSUB-NF by running `./pubsub_NF.py --n X`, which `X` is (0, 1 and 2)
+   PUBSUB-NF by running `./pubsub_NF.py --n X`, which `X` is `(0, 1 and 2)`
    for each host respectively.
-   e.g. `./pubsub_NF.py --n 0` in h1, `./pubsub_NF.py --n 1` in h2 and
-   `./pubsub_NF.py --n 2` in h3. You will see `ID` assignments for the
+   e.g. `./pubsub_NF.py --n 0` in `h1`, `./pubsub_NF.py --n 1` in `h2` and
+   `./pubsub_NF.py --n 2` in `h3`. You will see ID assignments for the
    NFs and their PUBLISH variables, wait until all of the three NFs
    start to PUBLISH.
 
 6. From the Mininet prompt start only one terminal in one of the
-   hosts by your choice, you should have 8 terminals by now. Start
-   another NF by running `./pubsub_NF.py --n 3` inside this terminal.
-   You will see the same procedure for this NF too. But after starting
-   to PUBLISH on its variable, it starts to ask for the id of the some
-   other variables, and eventually subscribing on them in the switches.
-   You will see that this NF is receiving the other NF publishes for
-   the variables it requested.
+   hosts from `(h1, h2 and h3)` by your choice, you should have 8 terminals by now.
+   ```bash
+   mininet> xterm hx
+   ```
+   Where `x` is one of the `(1, 2 and 3)`. Start another NF by running `./pubsub_NF.py --n 3` inside this terminal. You will see the same procedure for this NF too. But after starting to PUBLISH on its variable, it starts to ask for the id of the some other variables, and eventually subscribing on them in the switches. You will see that this NF is receiving the other NF publishes for the variables it requested.
 
 7. In another terminal outside the Mininet(a regular terminal of the
    system) run this command:
