@@ -1,7 +1,5 @@
 # Publish/Subscribe with P4
 
-This repository is made as a proof of concept for my thesis in Master of the science in the Communications and Computer network.
-
 ## Introduction
 
 In this repository two sample solutions for State Replication is prepared
