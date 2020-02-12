@@ -1,0 +1,158 @@
+{
+  "target": "bmv2",
+  "p4info": "build/pub_sub.p4.p4info.txt",
+  "bmv2_json": "build/pub_sub.json",
+  "table_entries": [
+    {
+      "table": "MyIngress.spanning_tree_pubsub_lpm",
+      "default_action": true,
+      "action_name": "MyIngress.drop",
+      "action_params": { }
+    },
+    {
+      "table": "MyIngress.spanning_tree_pubsub_lpm",
+      "match": {
+        "hdr.ipv4.dstAddr": ["239.128.0.0", 9]
+      },
+      "action_name": "MyIngress.pubsub_reg_forward",
+      "action_params": {
+        "st_mc_grp": 1
+      }
+    },
+    {
+      "table": "MyIngress.ipv4_lpm",
+      "default_action": true,
+      "action_name": "MyIngress.drop",
+      "action_params": { }
+    },
+    {
+      "table": "MyIngress.ipv4_lpm",
+      "match": {
+        "hdr.ipv4.dstAddr": ["10.0.1.1", 32]
+      },
+      "action_name": "MyIngress.ipv4_forward",
+      "action_params": {
+        "dstAddr": "08:00:00:00:01:00",
+        "port": 1
+      }
+    },
+    {
+      "table": "MyIngress.ipv4_lpm",
+      "match": {
+        "hdr.ipv4.dstAddr": ["10.0.2.2", 32]
+      },
+      "action_name": "MyIngress.ipv4_forward",
+      "action_params": {
+        "dstAddr": "08:00:00:00:02:00",
+        "port": 1
+      }
+    },
+    {
+      "table": "MyIngress.ipv4_lpm",
+      "match": {
+        "hdr.ipv4.dstAddr": ["10.0.3.3", 32]
+      },
+      "action_name": "MyIngress.ipv4_forward",
+      "action_params": {
+        "dstAddr": "08:00:00:00:03:33",
+        "port": 2
+      }
+    },
+    {
+      "table": "MyIngress.ipv4_lpm",
+      "match": {
+        "hdr.ipv4.dstAddr": ["10.0.4.4", 32]
+      },
+      "action_name": "MyIngress.ipv4_forward",
+      "action_params": {
+        "dstAddr": "08:00:00:00:04:44",
+        "port": 3
+      }
+    }
+  ],
+  "multicast_group_entries" : [
+    {
+      "multicast_group_id" : 1,
+      "replicas" : [
+        {
+          "egress_port" : 1,
+          "instance" : 1
+        }
+      ]
+    },
+    {
+      "multicast_group_id" : 2,
+      "replicas" : [
+        {
+          "egress_port" : 2,
+          "instance" : 1
+        }
+      ]
+    },
+    {
+      "multicast_group_id" : 3,
+      "replicas" : [
+        {
+          "egress_port" : 1,
+          "instance" : 1
+        },
+        {
+          "egress_port" : 2,
+          "instance" : 1
+        }
+      ]
+    },
+    {
+      "multicast_group_id" : 4,
+      "replicas" : [
+        {
+          "egress_port" : 3,
+          "instance" : 1
+        }
+      ]
+    },
+    {
+      "multicast_group_id" : 5,
+      "replicas" : [
+        {
+          "egress_port" : 1,
+          "instance" : 1
+        },
+        {
+          "egress_port" : 3,
+          "instance" : 1
+        }
+      ]
+    },
+    {
+      "multicast_group_id" : 6,
+      "replicas" : [
+        {
+          "egress_port" : 2,
+          "instance" : 1
+        },
+        {
+          "egress_port" : 3,
+          "instance" : 1
+        }
+      ]
+    },
+    {
+      "multicast_group_id" : 7,
+      "replicas" : [
+        {
+          "egress_port" : 1,
+          "instance" : 1
+        },
+        {
+          "egress_port" : 2,
+          "instance" : 1
+        },
+        {
+          "egress_port" : 3,
+          "instance" : 1
+        }
+      ]
+    }
+  ]
+}
