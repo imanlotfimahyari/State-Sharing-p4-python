@@ -17,7 +17,7 @@ It has two modules:
 
 For starting with the P4 language, one can refer to the [P4 tutorial](https://github.com/p4lang/tutorials), prepared by the [P4.ORG](https://p4.org/) as a learning source.
 
-The environment for running is captured from the [P4 tutorial](https://github.com/p4lang/tutorials).
+The environment for running is derived from the [P4 tutorial](https://github.com/p4lang/tutorials).
 
 ## Obtaining required software
 
