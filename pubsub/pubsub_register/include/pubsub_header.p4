@@ -30,7 +30,7 @@ header ipv4_t {
 
 header udp_t {
     bit<16> srcPrt;
-    bit<16> dstPrt;  // here 65432(0xff98) => ip.dst is pubsub header
+    bit<16> dstPrt;           // here 65432(0xff98) => ip.dst is pubsub header
     bit<16> lenght;
     bit<16> chksum;
 }
@@ -41,7 +41,8 @@ struct local_metadata_t {
 
     bit<22> pubsub_indx;      // The (pub or sub) index for temp use.
     bit<2> pubsub_flags;      // '11'=sub_add, '10'=sub_rem, '00'=pub,
-                              // '01'=(send to SDN controller(INIT, SUB_REQUEST, RECOVER)).
+                              // '01'=(send to the REPLICA controller
+                              // for (INIT_NF_ID, INIT_PUB_ID,Variable_ID_REQ, RECOVER)).
     bit<8> ipDstCode;
     bit<8> ipSrcCode;
 }
