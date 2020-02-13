@@ -4,7 +4,6 @@
 
 In this repository a sample solution for State Replication is prepared
 by help of the P4 language and the PUBLISH/SUBSCRIBE scheme.
-It has two modules:
 
 1. By using the internal registers
 * [Register-based solution](./pubsub/pubsub_register)
