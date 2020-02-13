@@ -2,24 +2,21 @@
 
 ## Introduction
 
-In this repository two sample solutions for State Replication is prepared
+In this repository a sample solution for State Replication is prepared
 by help of the P4 language and the PUBLISH/SUBSCRIBE scheme.
 It has two modules:
 
 1. By using the internal registers
 * [Register-based solution](./pubsub/pubsub_register)
 
-2. By using the P4Runtime and the embedded-local Controller and tables
-* [Embedded-controller solution](./pubsub/pubsub_embedded)
-
-
 ## Presentation
 
 For starting with the P4 language, one can refer to the [P4 tutorial](https://github.com/p4lang/tutorials), prepared by the [P4.ORG](https://p4.org/) as a learning source.
 
-The environment for running is derived from the [P4 tutorial](https://github.com/p4lang/tutorials).
-
 ## Obtaining required software
+
+The environment for running and the instructions to Obtaining required software
+is derived from the [P4 tutorial](https://github.com/p4lang/tutorials).
 
 To run the proposed solutions, you will need to either build a
 virtual machine or install several dependencies.
