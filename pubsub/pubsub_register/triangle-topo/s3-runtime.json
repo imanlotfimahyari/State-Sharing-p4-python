@@ -4,13 +4,13 @@
   "bmv2_json": "build/pub_sub.json",
   "table_entries": [
     {
-      "table": "MyIngress.spanning_tree_pubsub_lpm",
+      "table": "MyIngress.distribution_tree_pubsub_lpm",
       "default_action": true,
       "action_name": "MyIngress.drop",
       "action_params": { }
     },
     {
-      "table": "MyIngress.spanning_tree_pubsub_lpm",
+      "table": "MyIngress.distribution_tree_pubsub_lpm",
       "match": {
         "hdr.ipv4.dstAddr": ["239.128.0.0", 9]
       },
