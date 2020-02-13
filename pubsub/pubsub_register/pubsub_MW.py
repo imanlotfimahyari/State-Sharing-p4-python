@@ -1,6 +1,9 @@
 #!/usr/bin/env python
-### crosses the default OS limmitation using one thread for receive UDP and
-### each extra thread for adding new simmilar range of Multicast groups.
+
+'''
+    Uncommenting the print commands next to the "mid_log"s 
+    can give a simple screen view of message transactions.
+''' 
 import socket
 import threading
 import sys
@@ -19,7 +22,7 @@ from scapy.all import get_if_list
 my_server_name = "-" # my server name e.g. H1
 nxt_NF_local_id = 1
 rcv_mw_socks = [0]
-system_default_max = 20
+# system_default_max = 20
 
 NF_sockets = [0] #  NF_LOCAL_ID = Index of the [socket object of the correspondent NF , (address, port)]
 NF_local_global_id = [0] # NF_LOCAL_ID = Index of the NF_GLOBAL_ID
@@ -63,7 +66,7 @@ def get_if(): # interface
     return iface
 
 def pubSubIP(var_id, kind): # making IP.destination based on variable_id and packet kind
-    if kind in [0,1,5,6]:# "INIT_NF","INIT_PUB", "Variable_ID_REQ", "RECOVER"
+    if kind in [0,1,5,6]:# "INIT_NF_ID","INIT_PUB_ID", "Variable_ID_REQ", "RECOVER"
         b=[10,0,4,4]
     else:
         a=bin(var_id)[2:].zfill(32)
@@ -128,7 +131,7 @@ def init_conn_to_nf(): # Initializing  the Middle_Ware, making general server li
 def NF_sock_recv(NF_ID): # receiver function for the NF sockets
     global NF_sock_output_queues, NF_sockets
 
-    print "\n[INFO] <NF_sock_recv>                for NF({}) :[STARTED]".format(NF_ID)
+    print "\n[INFO] <NF_sock_recv> for NF({}) :[STARTED]".format(NF_ID)
     mid_log("[INFO] <NF_sock_recv>", "               for NF({}) :[STARTED]".format(NF_ID))
     while True:
         try:
@@ -195,7 +198,7 @@ def NF_sock_data_cleaner_handlr(NF_ID): # rebuild the msgs coming from the NF an
                         ## msg = Data_length(2B)+Kind(2B)+Global_ID(2B)+NF_NAME(nB)
                         received_data_internal.append(in_msg)
 
-                        #### CUT PROCESSED MSG FROM current_data
+                        #### CUT THE PROCESSED MSG FROM current_data
                         current_data = current_data[int(su("H",current_data[:2])[0]):] # continue from begining of the next msg
                     except:
                         raise
@@ -214,7 +217,7 @@ def NF_sock_data_cleaner_handlr(NF_ID): # rebuild the msgs coming from the NF an
                                 NF_sock_input_queues[NF_local_global_id.index(dest)].append(msg_copy)
                         received_data_internal.append(in_msg)
 
-                        #### CUT PROCESSED MSG FROM current_data
+                        #### CUT THE PROCESSED MSG FROM current_data
                         current_data = current_data[int(su("H",current_data[:2])[0]):] # continue from begining of the next msg
                     except:
                         raise
@@ -239,7 +242,7 @@ def NF_sock_data_cleaner_handlr(NF_ID): # rebuild the msgs coming from the NF an
                         if int(su("H",in_msg[4:6])[0]) not in NF_subscriptions[int(su("H",in_msg[6:8])[0])]: # if NF_ID is not in the var_id:[]
                             NF_subscriptions[int(su("H",in_msg[6:8])[0])].append(int(su("H",in_msg[4:6])[0])) # add NF_ID to subscriptions of var_id
 
-                    #### CUT PROCESSED MSG FROM current_data
+                    #### CUT THE PROCESSED MSG FROM current_data
                     current_data = current_data[int(su("H",current_data[:2])[0]):] # continue from begining of the next msg
 
                 #### SUBSCRIBE REMOVE
@@ -255,7 +258,7 @@ def NF_sock_data_cleaner_handlr(NF_ID): # rebuild the msgs coming from the NF an
                                 break
                         if not internal_publish:
                             received_data_internal.append(in_msg)
-                    #### CUT PROCESSED MSG FROM current_data
+                    #### CUT THE PROCESSED MSG FROM current_data
                     current_data = current_data[int(su("H",current_data[:2])[0]):] # continue from begining of the next msg
 
                 else:
@@ -299,7 +302,9 @@ def send_data_middleware():# sending packets to network
             print "[SW][OUT] <send_data_middleware>        => len({}), kind({})".format(su("H",out_msg[:2])[0], su("H",out_msg[2:4])[0])
 
             kind = int(su("H", out_msg[2:4])[0])
-            if kind==3:# sub_register
+
+            # SUB_register
+            if kind==3:
                 var_id = int(su("H",out_msg[6:8])[0])
                 # Building the multicast group related to the variable_id
                 mcast_group = pubSubIP(var_id,2)
@@ -310,21 +315,30 @@ def send_data_middleware():# sending packets to network
                 mreq = struct.pack('4sL', group, socket.INADDR_ANY)
                 all_mcast_groups.append(mcast_group)
 
-                if len(mcast_groups[group_num])==system_default_max:
+#                 if len(mcast_groups[group_num])==system_default_max:
+#                     group_num += 1
+#                     mcast_groups[group_num]=[]
+#                     ## building the thread responcible for receiving the publishes on that var_id
+#                     rcv_mw_socks[group_num]=threading.Thread(target=pub_mcast_membership_thr, args=[group_num])
+#                     print "\n[INFO] send_data_middleware: buiding...\n", rcv_mw_socks
+#                     rcv_mw_socks[group_num].start()
+#                     print "\n[INFO] send_data_middleware: starting...\n", rcv_mw_socks
+                try:
+                    rcv_mw_socks[group_num].setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+                except:
                     group_num += 1
                     mcast_groups[group_num]=[]
-                    ## building the thread responcible for receiving the publishes on that var_id
+                    ## building a new thread responcible for making a new socket for that var_id,
+                    ## but not receiving, just letting us do more IP_multicast_membersip
                     rcv_mw_socks[group_num]=threading.Thread(target=pub_mcast_membership_thr, args=[group_num])
                     print "\n[INFO] send_data_middleware: buiding...\n", rcv_mw_socks
                     rcv_mw_socks[group_num].start()
                     print "\n[INFO] send_data_middleware: starting...\n", rcv_mw_socks
-                try:
-                    rcv_mw_socks[group_num].setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
-                    mcast_groups[group_num].append(mcast_group)
-                except:
                     with open("error_mreq_report.txt","a") as f:
-                        f.write("membership error,receiver thread for: %s ,group: %s\n" % (str(var_id),mcast_group))
+                        f.write("handled membership error due to OS limit,receiver thread for: %s ,group: %s\n" % (str(var_id),mcast_group))
                     pass
+                
+                mcast_groups[group_num].append(mcast_group)
 
             elif kind in [2,4,6]: # publish, sub_remove, recover
                 var_id = int(su("H",out_msg[6:8])[0])
