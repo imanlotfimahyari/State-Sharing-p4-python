@@ -103,7 +103,7 @@ control MyIngress(inout headers hdr,
         default_action = drop();
     }
 
-    table spanning_tree_pubsub_lpm {
+    table distribution_tree_pubsub_lpm {
         key = {
             hdr.ipv4.dstAddr: lpm;
         }
@@ -129,11 +129,11 @@ control MyIngress(inout headers hdr,
                 }
                 else if (local_metadata.pubsub_flags == 2) { // SUBSCRIBE remove
                     update_registers_unsubscribe();
-                    spanning_tree_pubsub_lpm.apply();
+                    distribution_tree_pubsub_lpm.apply();
                 }
                 else if (local_metadata.pubsub_flags == 3) { // SUBSCRIBE register
                     update_registers_subscribe();
-                    spanning_tree_pubsub_lpm.apply();
+                    distribution_tree_pubsub_lpm.apply();
                 }
             }
 
