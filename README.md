@@ -15,7 +15,7 @@ For starting with the P4 language, one can refer to the [P4 tutorial](https://gi
 
 ## Obtaining required software
 
-The environment for running and the instructions to Obtaining required software
+The environment for running and the instructions for this part
 is derived from the [P4 tutorial](https://github.com/p4lang/tutorials).
 
 To run the proposed solutions, you will need to either build a
