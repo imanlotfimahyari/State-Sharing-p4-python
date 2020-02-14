@@ -129,6 +129,10 @@ Start by bringing up our structure in the Mininet to test its behavior.
    to that register. The relation between the variable and the register
    is the index of the register which is equal to the id of the variable
    that is assigned by the REPLICA controller.
+   
+   **Important:** if you are using the toplogies with more than one switch, for
+   each switch in the topology you should repeat this part, noticing that for the `S1`
+   the thrift port is `9090` and for the rest one should use `9091` for `S2` and `9092` for `S3`.
 
 8. In the Mininet command line type `exit` to close all the xterminals.
    Then, to stop mininet:
