@@ -45,9 +45,6 @@ def configureP4Switch(**switch_args):
                 P4RuntimeSwitch.__init__(self, *opts, **kwargs)
 
             def describe(self):
-                print '====================================='
-                print 'Switch Device ID: %s' % str(self.device_id)
-                print 'Switch CPU port: %s' % str(self.cpu_port)
                 print "%s -> gRPC port: %d" % (self.name, self.grpc_port)
 
         return ConfiguredP4RuntimeSwitch
@@ -139,6 +136,8 @@ class ExerciseRunner:
             topo : Topo object   // The mininet topology instance
             net : Mininet object // The mininet instance
 
+            cpu_port : string    // The controller CPU_PORT // NOT SURE!!(string OR integer)
+
     """
     def logger(self, *items):
         if not self.quiet:
@@ -153,7 +152,7 @@ class ExerciseRunner:
 
 
     def __init__(self, topo_file, log_dir, pcap_dir,
-                       switch_json, bmv2_exe='simple_switch', quiet=False):
+                       switch_json, bmv2_exe='simple_switch', quiet=False, cpu_port='255'):
         """ Initializes some attributes and reads the topology json. Does not
             actually run the exercise. Use run_exercise() for that.
 
@@ -165,6 +164,7 @@ class ExerciseRunner:
                 switch_json : string  // Path to a compiled p4 json for bmv2
                 bmv2_exe    : string  // Path to the p4 behavioral binary
                 quiet : bool          // Enable/disable script debug messages
+                cpu_port : string     // port number to the internal p4runtime compiler
         """
 
         self.quiet = quiet
@@ -185,7 +185,8 @@ class ExerciseRunner:
         self.pcap_dir = pcap_dir
         self.switch_json = switch_json
         self.bmv2_exe = bmv2_exe
-
+        self.cpu_port = cpu_port
+        self.logger('cpu_port for local compiler is : ',cpu_port)
 
     def run_exercise(self):
         """ Sets up the mininet instance, programs the switches,
@@ -250,7 +251,8 @@ class ExerciseRunner:
                                 sw_path=self.bmv2_exe,
                                 json_path=self.switch_json,
                                 log_console=True,
-                                pcap_dump=self.pcap_dir)
+                                pcap_dump=self.pcap_dir,
+                                cpu_port=self.cpu_port)
 
         self.topo = ExerciseTopo(self.hosts, self.switches, self.links, self.log_dir, self.bmv2_exe, self.pcap_dir)
 
@@ -372,6 +374,9 @@ def get_args():
     parser.add_argument('-j', '--switch_json', type=str, required=False)
     parser.add_argument('-b', '--behavioral-exe', help='Path to behavioral executable',
                                 type=str, required=False, default='simple_switch')
+    # IMAN
+    parser.add_argument('-x', '--cpu-port', help='Defines cpu_port for internal compiler.',
+                        type=str, required=False, default='255')
     return parser.parse_args()
 
 
@@ -381,6 +386,7 @@ if __name__ == '__main__':
 
     args = get_args()
     exercise = ExerciseRunner(args.topo, args.log_dir, args.pcap_dir,
-                              args.switch_json, args.behavioral_exe, args.quiet)
+                              args.switch_json, args.behavioral_exe,
+                              args.quiet, args.cpu_port)
 
     exercise.run_exercise()
