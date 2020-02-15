@@ -97,7 +97,7 @@ class P4InfoHelper(object):
         p4runtime_match = p4runtime_pb2.FieldMatch()
         p4runtime_match.field_id = p4info_match.id
         match_type = p4info_match.match_type
-        # change vaild => to unspecified
+        # change valid => to unspecified
         if match_type == p4info_pb2.MatchField.UNSPECIFIED:
             valid = p4runtime_match.valid
             valid.value = bool(value)
@@ -174,17 +174,6 @@ class P4InfoHelper(object):
         p4runtime_metadata.metadata_id = metadata_id
         p4runtime_metadata.value = value
         return p4runtime_metadata
-
-    # get mc_group_entry
-    def buildMCEntry(self, mc_group_id, replicas=None):
-        mc_group_entry = p4runtime_pb2.MulticastGroupEntry()
-        mc_group_entry.multicast_group_id = mc_group_id
-        if replicas:
-            mc_group_entry.replicas.extend([
-                self.get_replicas_pb(egress_port, instance)
-                for egress_port, instance in replicas.iteritems()
-            ])
-        return mc_group_entry
 
     # get packetout
     def buildPacketOut(self, payload, metadata=None):
