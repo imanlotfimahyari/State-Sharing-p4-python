@@ -66,16 +66,6 @@ control MyIngress(inout headers hdr,
         standard_metadata.mcast_grp = (bit<16>)local_metadata.mcastGrp_id;
     }
 
-    action send_sub_confirm() {
-        bit<32> tmp;
-
-        // CAN BE REMOVED ,USED FOR SCAPY RECEIVE
-        tmp = hdr.ipv4.dstAddr;
-        hdr.ipv4.dstAddr = hdr.ipv4.srcAddr;
-        hdr.ipv4.srcAddr = tmp;
-        standard_metadata.egress_spec = standard_metadata.ingress_port;
-    }
-
     action ipv4_forward(mac_addr_t dstAddr, port_num_t port) {
         standard_metadata.egress_spec = port;
         hdr.ethernet.srcAddr = hdr.ethernet.dstAddr;
