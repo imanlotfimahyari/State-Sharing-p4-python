@@ -162,8 +162,6 @@ def send_msg():
         except IndexError:
             time.sleep(1)
             pass
-        except:
-            raise
 
 def receive_msg():
     global received_queue, NF_sock
@@ -254,14 +252,11 @@ def msg_cleaner_handler():
                 #### PUBLISH MSG => (kind = 2)
                 ## kind(2B)+variable_id(4B)+update_num(2B)+frag_tot(2B)+frag_num(2B)+DATA(mB)
                 elif int(su("H",in_msg[2:4])[0])==2: # it is a publish
-                    try:
-                        NF_log("[IN] <msg_cleaner_handler>","Received PUBLISH => len({}), kind({})\
-                               ".format(su("H",in_msg[:2])[0],msg_kind(int(su("H",in_msg[2:4])[0]))))
+                    NF_log("[IN] <msg_cleaner_handler>","Received PUBLISH => len({}), kind({})\
+                           ".format(su("H",in_msg[:2])[0],msg_kind(int(su("H",in_msg[2:4])[0]))))
 
-                        print "[IN] <msg_cleaner_handler>","Received PUBLISH => len({}), kind({})\
-                              ".format(su("H",in_msg[:2])[0],msg_kind(int(su("H",in_msg[2:4])[0])))
-                    except:
-                        pass
+                    print "[IN] <msg_cleaner_handler>","Received PUBLISH => len({}), kind({})\
+                          ".format(su("H",in_msg[:2])[0],msg_kind(int(su("H",in_msg[2:4])[0])))
 
                     # checking if drop mark for "Variable_ID,update_num"
                     if (str(su("H",in_msg[6:8])[0])+","+str(su("H",in_msg[8:10])[0])) not in drop_update.keys():
