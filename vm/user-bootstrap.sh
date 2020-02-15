@@ -120,6 +120,10 @@ sudo chown -R p4:p4 /home/p4/tutorials
 # Install grip for offline markdown rendering
 sudo pip install grip
 
+# --- State-Sharing-p4-python --- #
+git clone https://github.com/imanlotfimahyari/State-Sharing-p4-python
+sudo cp -fR State-Sharing-p4-python/* /home/p4/tutorials
+
 # --- Emacs --- #
 sudo cp p4_16-mode.el /usr/share/emacs/site-lisp/
 sudo mkdir /home/p4/.emacs.d/
