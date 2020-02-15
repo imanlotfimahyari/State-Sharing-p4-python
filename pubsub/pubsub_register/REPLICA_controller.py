@@ -102,7 +102,6 @@ def handle_pkt_REPLICA():
     while True:
         msg, msg_address = recv_REPLICA_sock.recvfrom(2048)
         try:
-            # REPLICA_log("[(REPLICA Controller)] handle_pkt_scapy", "RECEIVED MSG len({}), kind({})".format(su("H",msg[:2])[0],su("H",msg[2:4])[0]))
             REPLICA_log("\n[SW][IN] <handle_pkt_REPLICA> ", " => len({}), kind({})".format(su("H",msg[:2])[0],msg_kind(int(su("H",msg[2:4])[0]))))
             print "\nGot msg => kind({})".format(msg_kind(int(su("H",msg[2:4])[0])))
             # print "[SW][IN] <handle_pkt_REPLICA> => len({}), kind({})".format(su("H",msg[:2])[0],su("H",msg[2:4])[0])
