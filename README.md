@@ -35,7 +35,7 @@ resources, etc.), we implemented a simple `Middle-ware` to be placed between the
 Network Functions of each host and the host itself.
 
 A simple structure and its internal view is demonstrated here: 
-![single-topo](./single-topo.png | width=50)
+![single-topo](./single-topo.png =250x250)
 ![internal-view](./internal-view.png)
 
 ## Presentation
