@@ -25,7 +25,7 @@ actions for every `PubSub` packet:
     the `id` of the requested `variable`, or the reverse actions, if it was
     a remove request.  
 (ii) Forwards the request to other P4-switches, if any, through the
-    virtual spanning tree that is already prepared by the main controller
+    Distribution tree that is already prepared by the main controller
     in the switch.
 (iii) If it is a publish packet, the switch will checks the the internal
     register with index equal to the `id` of the published `variable`, and
@@ -36,7 +36,7 @@ The switch have a single IPv4 forwarding table, which the control plane
 will populate it with static rules for each topology. Each rule will map
 an IP address to the MAC address and output port for the next hop.
 Four registers for handling four variables, and a multicast table with one
-entry for the spanning tree, which the control plane will populate it with
+entry for the distribution tree, which the control plane will populate it with
 static rules for each topology.
 
 We can use the following topologies for this design.
