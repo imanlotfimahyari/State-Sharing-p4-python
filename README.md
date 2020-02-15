@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this repository a sample solution for State Replication is prepared
+In this repository a sample solution for State sharing is prepared
 by help of the P4 language and the PUBLISH/SUBSCRIBE scheme.
 
 1. By using the internal registers
