@@ -36,8 +36,7 @@ Network Functions of each host and the host itself.
 
 A simple structure and its internal view is demonstrated here: 
 
-<img src="./single-topo.png" width="400">
-<img src="./internal-view.png" width="400">
+<img src="./single-topo.png" width="400"> <img src="./internal-view.png" width="400">
 
 ## Presentation
 
