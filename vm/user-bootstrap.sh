@@ -120,6 +120,9 @@ git clone https://github.com/imanlotfimahyari/State-Sharing-p4-python
 sudo pip install netifaces
 sudo mv State-Sharing-p4-python /home/p4
 sudo chown -R p4:p4 /home/p4/State-Sharing-p4-python
+sudu chmod +x /home/p4/State-Sharing-p4-python/pubsub/pubsub_register/REPLICA_controller.py
+sudu chmod +x /home/p4/State-Sharing-p4-python/pubsub/pubsub_register/pubsub_MW.py
+sudu chmod +x /home/p4/State-Sharing-p4-python/pubsub/pubsub_register/pubsub_NF.py
 
 # --- Emacs --- #
 sudo cp p4_16-mode.el /usr/share/emacs/site-lisp/
