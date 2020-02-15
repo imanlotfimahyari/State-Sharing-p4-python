@@ -37,11 +37,10 @@ Network Functions of each host and the host itself.
 A simple structure is showned here: 
 ![internal-view](./internal-view.png)
 
-1. By using the internal registers
-* [Register-based solution](./pubsub/pubsub_register)
-
 ## Presentation
 
+1. By using the internal registers
+* [Register-based solution](./pubsub/pubsub_register)
 
 For starting with the P4 language, one can refer to the [P4 tutorial](https://github.com/p4lang/tutorials), prepared by the [P4.ORG](https://p4.org/) as a learning source.
 
