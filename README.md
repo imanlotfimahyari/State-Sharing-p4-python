@@ -69,7 +69,7 @@ software pre-installed.
 
 You will need the script to execute to completion before you can see the `p4` login on your virtual machine's GUI. In some cases, the `vagrant up` command brings up only the default `vagrant` login with the password `vagrant`. Dependencies may or may not have been installed for you to proceed with running P4 programs. Please refer the [existing issues](https://github.com/p4lang/tutorials/issues) to help fix your problem or create a new one if your specific problem isn't addressed there.*
 
-2.To install dependencies by hand, please reference the [vm](../vm) installation scripts.
+2.To install dependencies by hand, please reference the [vm](./vm) installation scripts.
 They contain the dependencies, versions, and installation procedure.
 You should be able to run them directly on an Ubuntu 16.04 machine, although note that the scripts currently assume the existence of a directory `/home/vagrant`:
 - `sudo ./root-bootstrap.sh`
