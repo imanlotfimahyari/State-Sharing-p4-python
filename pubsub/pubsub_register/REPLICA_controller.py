@@ -68,7 +68,7 @@ def get_if(): # interface
     for i in ifs:
         if "eth0" in i:
             iface=i
-            break;
+            break
     if not iface:
         print "Cannot find eth0 interface"
         exit(1)
@@ -101,12 +101,8 @@ def handle_pkt_REPLICA():
 
     while True:
         msg, msg_address = recv_REPLICA_sock.recvfrom(2048)
-        try:
-            REPLICA_log("\n[SW][IN] <handle_pkt_REPLICA> ", " => len({}), kind({})".format(su("H",msg[:2])[0],msg_kind(int(su("H",msg[2:4])[0]))))
-            print "\nGot msg => kind({})".format(msg_kind(int(su("H",msg[2:4])[0])))
-            # print "[SW][IN] <handle_pkt_REPLICA> => len({}), kind({})".format(su("H",msg[:2])[0],su("H",msg[2:4])[0])
-        except:
-            raise
+        REPLICA_log("\n[SW][IN] <handle_pkt_REPLICA> ", " => len({}), kind({})".format(su("H",msg[:2])[0],msg_kind(int(su("H",msg[2:4])[0]))))
+        print "\nGot msg => kind({})".format(msg_kind(int(su("H",msg[2:4])[0])))
 
         ### INIT NF_ID MSG
         ### (kind = 0)
