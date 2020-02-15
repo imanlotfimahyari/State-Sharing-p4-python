@@ -113,7 +113,6 @@ def init_conn_to_nf(): # Initializing  the Middle_Ware, making general server li
     mid_log("[INIT] <init_conn_to_nf>", "HOST name: {}, Middle_Ware :[STARTED]".format(my_server_name))
     general_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     general_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    # general_sock.setblocking(0)
     general_sock.bind(("localhost",65431))
     print "[INIT] General server listening...\n"
     mid_log("[INIT] <init_conn_to_nf>","General server listening...")
@@ -194,47 +193,38 @@ def NF_sock_data_cleaner_handlr(NF_ID): # rebuild the msgs coming from the NF an
                 #### INITIALIZING NF_ID REQUEST
                 #### => (kind = 0)
                 if int(su("H",in_msg[2:4])[0]) == 0: # it is an initializing request from the NF => send to the SDN controller
-                    try:
-                        ## msg = Data_length(2B)+Kind(2B)+local_ID(2B)+Global_ID(2B)+NF_NAME(nB)
-                        in_msg_tmp = in_msg[2:4]+sp("H",NF_ID)+in_msg[6:]
-                        in_msg_tmp = sp("H",len(in_msg_tmp)+2)+in_msg_tmp
-                        received_data_internal.append(in_msg_tmp)
+                    ## msg = Data_length(2B)+Kind(2B)+local_ID(2B)+Global_ID(2B)+NF_NAME(nB)
+                    in_msg_tmp = in_msg[2:4]+sp("H",NF_ID)+in_msg[6:]
+                    in_msg_tmp = sp("H",len(in_msg_tmp)+2)+in_msg_tmp
+                    received_data_internal.append(in_msg_tmp)
 
-                        #### CUT PROCESSED MSG FROM current_data
-                        current_data = current_data[int(su("H",current_data[:2])[0]):] # continue from begining of the next msg
-                    except:
-                        raise
+                    #### CUT PROCESSED MSG FROM current_data
+                    current_data = current_data[int(su("H",current_data[:2])[0]):] # continue from begining of the next msg
 
                 #### PUB_ID, SUB_ID or RECOVER REQUEST
                 #### => (kind = 1, 5 and 6)
                 elif int(su("H",in_msg[2:4])[0]) in [1,5,6]: # it is an initializing request from the NF => send to the SDN controller
-                    try:
-                        ## msg = Data_length(2B)+Kind(2B)+Global_ID(2B)+NF_NAME(nB)
-                        received_data_internal.append(in_msg)
+                    ## msg = Data_length(2B)+Kind(2B)+Global_ID(2B)+NF_NAME(nB)
+                    received_data_internal.append(in_msg)
 
-                        #### CUT THE PROCESSED MSG FROM current_data
-                        current_data = current_data[int(su("H",current_data[:2])[0]):] # continue from begining of the next msg
-                    except:
-                        raise
+                    #### CUT THE PROCESSED MSG FROM current_data
+                    current_data = current_data[int(su("H",current_data[:2])[0]):] # continue from begining of the next msg
 
                 #### PUBLISH
                 #### => (kind = 2)
                 elif int(su("H",in_msg[2:4])[0]) == 2: # it is a publish msg from NF
-                    try:
-                        tmp_var_ID = int(su("H", in_msg[6:8])[0]) # extracting the Variable_ID
+                    tmp_var_ID = int(su("H", in_msg[6:8])[0]) # extracting the Variable_ID
 
-                        ## append var_ID to the published list of the related NF socket
-                        if tmp_var_ID in NF_subscriptions.keys(): # if there is internal subscriptions on this Variable_ID
-                            for dest in NF_subscriptions[tmp_var_ID]:
-                                ## msg = Data_length(2B)+Kind(2B)+Local_ID(2B)+Global_ID(4B)+tot_var(2B)
-                                msg_copy = copy.deepcopy(in_msg)
-                                NF_sock_input_queues[NF_local_global_id.index(dest)].append(msg_copy)
-                        received_data_internal.append(in_msg)
+                    ## append var_ID to the published list of the related NF socket
+                    if tmp_var_ID in NF_subscriptions.keys(): # if there is internal subscriptions on this Variable_ID
+                        for dest in NF_subscriptions[tmp_var_ID]:
+                            ## msg = Data_length(2B)+Kind(2B)+Local_ID(2B)+Global_ID(4B)+tot_var(2B)
+                            msg_copy = copy.deepcopy(in_msg)
+                            NF_sock_input_queues[NF_local_global_id.index(dest)].append(msg_copy)
+                    received_data_internal.append(in_msg)
 
-                        #### CUT THE PROCESSED MSG FROM current_data
-                        current_data = current_data[int(su("H",current_data[:2])[0]):] # continue from begining of the next msg
-                    except:
-                        raise
+                    #### CUT THE PROCESSED MSG FROM current_data
+                    current_data = current_data[int(su("H",current_data[:2])[0]):] # continue from begining of the next msg
 
                 #### SUBSCRIBE REGISTER
                 #### => (kind = 3)
@@ -304,7 +294,7 @@ def send_data_middleware():# sending packets to network
     # Create the datagram socket
     send_mw_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-    ## Set the time-to-live for messages
+    ## Set the time-to-live for the messages
     ttl = struct.pack('b', 2)
     send_mw_sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
     group_num = 0
@@ -329,14 +319,6 @@ def send_data_middleware():# sending packets to network
                 mreq = struct.pack('4sL', group, socket.INADDR_ANY)
                 all_mcast_groups.append(mcast_group)
 
-#                 if len(mcast_groups[group_num])==system_default_max:
-#                     group_num += 1
-#                     mcast_groups[group_num]=[]
-#                     ## building the thread responcible for receiving the publishes on that var_id
-#                     rcv_mw_socks[group_num]=threading.Thread(target=pub_mcast_membership_thr, args=[group_num])
-#                     print "\n[INFO] send_data_middleware: buiding...\n", rcv_mw_socks
-#                     rcv_mw_socks[group_num].start()
-#                     print "\n[INFO] send_data_middleware: starting...\n", rcv_mw_socks
                 try:
                     rcv_mw_socks[group_num].setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
                 except:
@@ -379,14 +361,11 @@ def recv_data_middleware():
     while True:
 
         data, addr_uni = rcv_mw_socks[0].recvfrom(2048)
-        try:
-            mid_log("[SW][IN]  <recv_data_middleware>", "MSG len({}), kind({})".format(su("H",data[:2])[0],
-                    su("H",data[2:4])[0]))
-            print "[SW][IN] <recv_data_middleware>      => len({}), kind({})".format(su("H",data[:2])[0],
-                    su("H",data[2:4])[0])
-        except:
-            pass
-
+        mid_log("[SW][IN]  <recv_data_middleware>", "MSG len({}), kind({})".format(su("H",data[:2])[0],
+                su("H",data[2:4])[0]))
+        print "[SW][IN] <recv_data_middleware>      => len({}), kind({})".format(su("H",data[:2])[0],
+                su("H",data[2:4])[0])
+ 
         ### INIT NF_ID REPLY
         if int(su("H", data[2:4])[0])==0:
             mid_log("\n[INFO] <recv_data_middleware>", "INIT NF_ID REPLY:len({}), kind({}), l_ID({}), G_id({})\n"\
