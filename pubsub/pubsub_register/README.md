@@ -4,7 +4,7 @@
 
 The objective of this basic solution is to show that by using the
 internal registers of the ingress pipeline one can deploy the
-PUBLISH/SUBSCRIBE scheme to be used by different applications.
+`PUBLISH/SUBSCRIBE` scheme to be used by different applications.
 
 To keep things simple, we just used IPv4 forwarding for some basic
 data transfer and some registers to do the main part related to the
