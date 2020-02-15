@@ -3,14 +3,14 @@
 ## Introduction
 
 In this repository a sample solution for State sharing is prepared
-by help of the P4 language, python and the PUBLISH/SUBSCRIBE scheme.
+by help of the `P4 language`, `python` and the `PUBLISH/SUBSCRIBE` scheme.
 
 In simple words, we have some `Network Functions` that want to `Publish` 
-information on some variables, they are not aware of each other existence
+information on some `variables`, they are not aware of each other existence
 or the place of the other Network Functions in the network, and they want
 to have a selective access to the others publishes.
 Their information is limited to the variable names and the address of 
-the REPLICA controller. We tried to implement a simple case that can 
+the `REPLICA controller`. We tried to implement a simple case that can 
 demonestrate well the idea.
 
 For the sack of simplicity, we start four hosts, then we run four Network
