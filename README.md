@@ -25,7 +25,7 @@ same host, will SUBSCRIBE on the other three variables which are being published
 by the other three Network Functions. The P4 switch is responcible to do the 
 registerations and forward the publishes to the subscribers.
 
-**HINT**
+**HINT:**
 In this example, the subscriber Network Function is sharing its host with one of 
 the publisher Network Functions, as the subscriber Network Function is subscribing 
 on the variable of this publisher Network Function, so do we need to route the 
