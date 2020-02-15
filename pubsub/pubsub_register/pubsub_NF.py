@@ -335,7 +335,7 @@ def msg_cleaner_handler():
             time.sleep(1)
             pass
 
-def subscribe_on_variable(NF): # --OK
+def subscribe_on_variable(NF): # SUBSCRIBE 
     global NF_id, variable_name, var_names_IDs, answer, init_SUB_ID, SUB_ID_ans
 
     while not init_NF_ID:
@@ -343,7 +343,7 @@ def subscribe_on_variable(NF): # --OK
 
     if NF==3:
         variables = [x for x in sorted(var_names_IDs.keys()) if x!=variable_name]
-        for i in [0,1,2]:
+        for i in range(3):
             sub_var_name = variables[i]
             if var_names_IDs[sub_var_name]==0:
                 while not init_SUB_ID:
@@ -353,14 +353,16 @@ def subscribe_on_variable(NF): # --OK
                     NF_log("[NF] <subscribe_on_variable>","INIT SUB_VAR_ID msg made and added to sending_queue")
                     sending_queue.append(var_init_msg)
 
-                    while not answer:
+                    while not answer: # wait for the answer from the REPLICA controller
                         time.sleep(1)
 
-                    if SUB_ID_ans=="error":
+                    if SUB_ID_ans=="error": # there is no "variable_id" assigned to that "variable"
                         time.sleep(10)
                         sending_queue.append(var_init_msg)
+                        
                     elif SUB_ID_ans=="ok":
                         init_SUB_ID=1
+                        
                 NF_log("[INFO] <subscribe_on_variable>","SUB_VAR_ID : DONE")
                 print "[INFO] <subscribe_on_variable> : SUB_VAR_ID : DONE\n"
 
