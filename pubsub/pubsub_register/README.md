@@ -111,16 +111,16 @@ Start by bringing up our structure in the Mininet to test its behavior.
    start to PUBLISH.
 
 7. From the Mininet prompt start only one terminal in one of the
-   hosts from `(h1, h2 and h3)` by your choice, you should have 8 terminals by now.
+   hosts from `(h1, h2 and h3)` by your choice:
    ```bash
    mininet> xterm hx
    ```
-   Where `x` is one of the `(1, 2 and 3)`. Start another NF by running 
-   `./pubsub_NF.py --n 3` inside this terminal. You will see the same 
-   procedure for this NF too. But after starting to PUBLISH on its variable, 
-   it starts to ask for the id of the some other variables, and eventually 
-   subscribing on them in the switches. You will see that this NF is receiving 
-   the other NF publishes for the variables it requested.
+   Where `x` is one of the `(1, 2 and 3)`, you should have 8 terminals by now.
+   Start another NF by running `./pubsub_NF.py --n 3` inside this terminal. 
+   You will see the same procedure for this NF too. But after starting to
+   PUBLISH on its variable,it starts to ask for the id of the some other variables,
+   and eventually subscribing on them in the switches. You will see that this 
+   NF is receiving the other NF publishes for the variables it requested.
 
 8. In another terminal outside the Mininet(a regular terminal of the
    system) run this command:
@@ -132,11 +132,10 @@ Start by bringing up our structure in the Mininet to test its behavior.
    ```bash
    register_read subIndxPort
    ```
-   you can see the registers with the number inside them, which the
-   number is showing the multicast group related to the variable related
-   to that register. The relation between the variable and the register
-   is the index of the register which is equal to the id of the variable
-   that is assigned by the REPLICA controller.
+   you can see the registers with the number inside each of them. Starting
+   from the left, the index of the register is the `variable_id - 1`, while 
+   the numbers are the multicast groups assigned to those registers. The ids 
+   for the variables are assigned by the REPLICA controller.
    
    **Important:** if you are using the toplogies with more than one switch, for
    each switch in the topology you should repeat this part, noticing that for the `S1`
