@@ -3,12 +3,45 @@
 ## Introduction
 
 In this repository a sample solution for State sharing is prepared
-by help of the P4 language and the PUBLISH/SUBSCRIBE scheme.
+by help of the P4 language, python and the PUBLISH/SUBSCRIBE scheme.
+
+In simple words, we have some `Network Functions` that want to `Publish` 
+information on some variables, they are not aware of each other existence
+or the place of the other Network Functions in the network, and they want
+to have a selective access to the others publishes.
+Their information is limited to the variable names and the address of 
+the REPLICA controller. We tried to implement a simple case that can 
+demonestrate well the idea.
+
+For the sack of simplicity, we start four hosts, then we run four Network
+Functions inside three of those hosts(two hosts has only one Network Function
+and one host has two Network Functions) and one REPLICA controller inside
+the forth host.
+
+In this implementation, all the Network Functions will initialize themselves
+by communicating with the REPLICA controller and each one will publish on one 
+unique variable, then one of the two Network Functions which is sharing the
+same host, will SUBSCRIBE on the other three variables which are being published
+by the other three Network Functions. The P4 switch is responcible to do the 
+registerations and forward the publishes to the subscribers.
+
+**HINT**
+In this example, the subscriber Network Function is sharing its host with one of 
+the publisher Network Functions, as the subscriber Network Function is subscribing 
+on the variable of this publisher Network Function, so do we need to route the 
+published data to the P4 switch and then again to the same host? 
+As an example for the solution to save the resources(bandwith, P4 switch internal
+resources, etc.), we implemented a simple `Middle-ware` to be placed between the 
+Network Functions of each host and the host itself.
+
+A simple structure is showned here: 
+![internal-view](./internal-view.png)
 
 1. By using the internal registers
 * [Register-based solution](./pubsub/pubsub_register)
 
 ## Presentation
+
 
 For starting with the P4 language, one can refer to the [P4 tutorial](https://github.com/p4lang/tutorials), prepared by the [P4.ORG](https://p4.org/) as a learning source.
 
