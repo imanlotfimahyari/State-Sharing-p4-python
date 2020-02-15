@@ -35,7 +35,7 @@ resources, etc.), we implemented a simple `Middle-ware` to be placed between the
 Network Functions of each host and the host itself.
 
 A simple structure is demonstrated here: 
-![internal-view](./internal-view.png)
+![internal-view](./internal-view1.png)
 
 ## Presentation
 
