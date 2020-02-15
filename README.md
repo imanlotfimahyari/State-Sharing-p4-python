@@ -34,7 +34,7 @@ As an example for the solution to save the resources(bandwith, P4 switch interna
 resources, etc.), we implemented a simple `Middle-ware` to be placed between the 
 Network Functions of each host and the host itself.
 
-A simple structure is showned here: 
+A simple structure is demonstrated here: 
 ![internal-view](./internal-view.png)
 
 ## Presentation
