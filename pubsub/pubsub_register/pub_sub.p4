@@ -16,8 +16,7 @@ control MyIngress(inout headers hdr,
                   inout local_metadata_t local_metadata,
                   inout standard_metadata_t standard_metadata) {
 
-    register<bit<4>>(16) subIndxPort;
-//    register<bit<16>>(TEST_VALUE) subIndxPort1;
+    register<bit<4>>(4) subIndxPort;
 
     action drop() {
         mark_to_drop(standard_metadata);
