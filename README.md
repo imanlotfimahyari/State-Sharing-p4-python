@@ -27,7 +27,7 @@ registerations and forward the publishes to the subscribers.
 
 **HINT:**
 In this example, the subscriber Network Function is sharing its host with one of 
-the publisher Network Functions, as the subscriber Network Function is subscribing 
+the publisher Network Functions. As the subscriber Network Function is subscribing 
 on the variable of this publisher Network Function, so do we need to route the 
 published data to the P4 switch and then again to the same host? 
 As an example for the solution to save the resources(bandwith, P4 switch internal
