@@ -1,5 +1,5 @@
 /******************* -*- P4_16 -*- *****************/
-/******** pubsub s1-h4 <<no controller REGISTERS (add/remove)>> ***********/
+/******** pubsub << REGISTER-BASED >> ***********/
 
 #include <core.p4>
 #include <v1model.p4>
