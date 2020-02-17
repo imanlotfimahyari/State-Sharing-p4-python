@@ -151,58 +151,10 @@ Start by bringing up our structure in the Mininet to test its behavior.
    make clean
    ```
 
-### A note about the control plane and the logs
-
-A P4 program defines a packet-processing pipeline, but the rules
-within each table are inserted by the control plane. When a rule
-matches a packet, its action is invoked with parameters supplied by
-the control plane as a part of the rule.
-
-Here, we have already implemented the control plane logic for you.
-As part of bringing up the Mininet instance, the `make all` command
-will install packet-processing rules in the tables of each switch.
-These are defined in the `sX-runtime.json` files, where `X` corresponds
-to the switch number.
-
-**Important:** We use P4Runtime to install the control plane rules. The
-content of files `sX-runtime.json` refer to specific names of tables, keys, and
-actions, as defined in the P4Info file produced by the compiler (look for the
-file `build/basic.p4.p4info.txt` after executing `make all`). Any changes in the P4
-program that add or rename tables, keys, or actions will need to be reflected in
-these `sX-runtime.json` files.
+### A note about the logs
 
 By starting the REPLICA controller, MIDDLE-WAREs and the NFs, they build
 a log file containing a simplified details about what is happening inside
 them. An external copy of the data for each published variable and for
 each received publish can be found there to trace the correctness of the
 algorithm.
-
-
-### Troubleshooting
-
-There are several problems that might manifest as you develop your program:
-
-1. `pub_sub.p4` might fail to compile. In this case, `make all` will
-report the error emitted from the compiler and halt.
-
-2. `pub_sub.p4` might compile but fail to support the control plane
-rules in the `sX-runtime.json` files that `make all` tries to install
-using P4Runtime. In this case, `make all` will report errors if control
-plane rules cannot be installed. Use these error messages to fix your
-`pub_sub.p4` implementation.
-
-3. `pub_sub.p4` might compile, and the control plane rules might be
-installed, but the switch might not process packets in the desired
-way. The `logs/sX.log` files contain detailed logs
-that describing how each switch processes each packet. The output is
-detailed and can help pinpoint logic errors in your implementation.
-
-#### Cleaning up Mininet
-
-In the latter two cases above, `make all` may leave a Mininet instance
-running in the background. Use the following command to clean up
-these instances:
-
-```bash
-make stop
-```
