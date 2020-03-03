@@ -62,7 +62,7 @@ describes the interfaces of the P4 programmable elements in the architecture,
 the supported externs, as well as the architecture's standard metadata
 fields. We encourage you to take a look at it.
 
-## Step 1: Start the environment with the desired topology
+## Start the environment with the desired topology and run the sample solution
 
 The REPLICA controller should be started in the H
 The directory with this README also contains a skeleton P4 program,
