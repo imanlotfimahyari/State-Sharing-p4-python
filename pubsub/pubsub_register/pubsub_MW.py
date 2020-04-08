@@ -324,7 +324,7 @@ def send_data_middleware():# sending packets to network
                 except:
                     group_num += 1
                     mcast_groups[group_num]=[]
-                    ## building a new thread responcible for making a new socket for that var_id,
+                    ## building a new thread responsible for making a new socket for that var_id,
                     ## but not receiving, just letting us do more IP_multicast_membersip
                     rcv_mw_socks[group_num]=threading.Thread(target=pub_mcast_membership_thr, args=[group_num])
                     print "\n[INFO] send_data_middleware: buiding...\n", rcv_mw_socks
