@@ -22,8 +22,6 @@ from struct import pack as sp
 from struct import unpack as su
 import argparse
 import hashlib
-import select
-import traceback
 import sys
 from datetime import datetime as dt
 from scapy.all import *
@@ -55,13 +53,13 @@ init_NF_ID = 0 # init_NF_ID flag
 init_PUB_ID = 0 # init_PUB_ID flag
 init_SUB_ID = 0 # init_SUB_ID
 
-answer = 0 # flag of having the SUB_ID_answer from the SDN controller
-SUB_ID_ans = "-" # translation of SUB_ID_answer from the SDN controller
+answer = 0 # flag of having the SUB_ID_answer from the REPLICA controller
+SUB_ID_ans = "-" # translation of SUB_ID_answer from the REPLICA controller
 
 NF_sock = 0 # The socket object of the connection between NF and the Middle_Ware
-update_num = 0  # Update number for thevariable_ID
+update_num = 0  # Update number for the variable_ID
 
-sending_queue = [] # msg queue for sending data out of the NFbthrough the TCP socket connected to the Middlle-Ware
+sending_queue = [] # msg queue for sending data out of the NF through the TCP socket connected to the Middlle-Ware
 received_queue = [] # msg queue for received data from the TCP socket connected to the Middlle-Ware
 
 global_table_last_frame = {} # EXAMPLE => variable_id:[update_num,frag_tot,frag_num] => 12:[1,0,0], ...
