@@ -14,7 +14,9 @@ With IPv4 forwarding, the switch must perform the following actions
 for every normal packet which is not one of our special kinds:
 
 (i) update the source and destination MAC addresses.
+
 (ii) decrement the time-to-live (TTL) in the IP header.
+
 (iii) forward the packet out the appropriate port.
 
 With `subIndxPort` registers, the switch must perform the following
@@ -23,10 +25,12 @@ actions for every `PubSub` packet:
 (i) If it is a registration request, the switch will write a positional
     map of the input port to the proper register with the index equal to
     the `id` of the requested `variable`, or the reverse actions, if it was
-    a remove request.  
+    a remove request.
+    
 (ii) Forwards the request to other P4-switches, if any, through the
-    Distribution tree that is already prepared by the main controller
+    `Distribution tree` that is already prepared by the main controller
     in the switch.
+    
 (iii) If it is a publish packet, the switch will checks the the internal
     register with index equal to the `id` of the published `variable`, and
     will `multicast` the packet to the ports which are written in that
