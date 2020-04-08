@@ -3,7 +3,10 @@
 ## Introduction
 
 In this repository a sample solution for State sharing is prepared
-by help of the `P4 language`, `python` and the `PUBLISH/SUBSCRIBE` scheme.
+by help of the `P4 language`, `python` and the `PUBLISH/SUBSCRIBE` scheme. 
+This work has been supported through the [5G EVE Project](https://www.5g-eve.eu/), 
+i.e., the European 5G validation platform for extensive trials, funded by the  
+European Horizon 2020 Programme for research, technological development and demonstration (grant agreement n.815074). 
 
 In simple words, we have some `Network Functions` that want to `Publish` 
 information on some `variables`, they are not aware of each other existence
