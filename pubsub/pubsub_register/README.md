@@ -19,6 +19,7 @@ for every normal packet which is not one of our special kinds:
 
 (iii) forward the packet out the appropriate port.
 
+
 With `subIndxPort` registers, the switch must perform the following
 actions for every `PubSub` packet:
 
@@ -35,6 +36,7 @@ actions for every `PubSub` packet:
     register with index equal to the `id` of the published `variable`, and
     will `multicast` the packet to the ports which are written in that
     mentioned register, otherwise drops the packet.
+    
 
 The switch have a single IPv4 forwarding table, which the control plane
 will populate it with static rules for each topology. Each rule will map
