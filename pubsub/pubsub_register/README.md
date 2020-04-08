@@ -68,11 +68,6 @@ fields. We encourage you to take a look at it.
 
 ## Start the environment with the desired topology and run the sample solution
 
-The REPLICA controller should be started in the H
-The directory with this README also contains a skeleton P4 program,
-`basic.p4`, which initially drops all packets. Your job will be to
-extend this skeleton program to properly forward IPv4 packets.
-
 Start by bringing up our structure in the Mininet to test its behavior.
 
 1. Open a terminal and go to the address 
