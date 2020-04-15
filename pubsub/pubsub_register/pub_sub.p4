@@ -49,7 +49,7 @@ control MyIngress(inout headers hdr,
         bit<4> tmp;
 
         subIndxPort.read(tmp, (bit<32>)(local_metadata.pubsub_indx - 1));
-        subIndxPort.write((bit<32>)(local_metadata.pubsub_indx - 1), (tmp ^ local_metadata.port_indx));
+        subIndxPort.write((bit<32>)(local_metadata.pubsub_indx - 1), (~local_metadata.port_indx & tmp));
     }
 
     action publish() {
