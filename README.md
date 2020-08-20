@@ -49,7 +49,7 @@ A simple structure and its internal view is demonstrated here:
 
 <p align="middle">
   <img src="./single-topo.png" width="425" />
-  <img src="./mid21.png" width="425" /> 
+  <img src="./mid2.png" width="425" /> 
 </p>
 
 ## Presentation
