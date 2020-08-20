@@ -48,15 +48,21 @@ static rules for each topology.
 We can use the following topologies for this design.
 
 1. A single switch topology which is referred to as single-topo:
-   ![single-topo](./single-topo/single-topo.png)
+   <p align="center">
+    <img src="./single-topo/single-topo.png" width="300" heigth="300" />
+   </p>
 
 2. A linear topology with two switches, which is referred to as
    linear-topo:
-   ![linear-topo](./linear-topo/linear-topo.png)
+   <p align="center">
+    <img src="./linear-topo/linear-topo.png" width="300" heigth="300" />
+   </p>
 
 3. A triangular topology with three switches, which is referred
    to as triangular-topo:
-   ![triangle-topo](./triangle-topo/triangular-topo.png)
+   <p align="center">
+    <img src="./triangle-topo/triangular-topo.png" width="300" heigth="300" />
+   </p>
 
 To use any of them, one should replace the topology address mentioned
 in the `MakeFile` with the desired topology.
