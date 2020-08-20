@@ -47,11 +47,10 @@ Network Functions of each host and the host itself.
 
 A simple structure and its internal view is demonstrated here: 
 
-<p float="middle">
+<p align="middle">
   <img src="./single-topo.png" width="425" />
-  <img src="./mid2.png" width="425" /> 
+  <img src="./mid21.png" width="425" /> 
 </p>
-<img src="./single-topo.png" width="425"> <img src="./mid2.png" width="425">
 
 ## Presentation
 
