@@ -28,14 +28,21 @@ parser MyParser(packet_in packet,
         packet.extract(hdr.ipv4);
         transition select(hdr.ipv4.protocol) {
             PROTO_UDP   : parse_udp;
+            PROTO_TCP   : parse_tcp;
             default    : accept;
+        }
+    }
+
+    state parse_tcp {
+        packet.extract(hdr.tcp);
+        transition select(hdr.tcp.dstPrt) {
+            default      : accept;
         }
     }
 
     state parse_udp {
         packet.extract(hdr.udp);
         transition select(hdr.udp.dstPrt) {
-            //PROTO_PUBSUB  : parse_pubsub;
             default      : accept;
         }
     }
@@ -49,6 +56,7 @@ control MyDeparser(packet_out packet, in headers hdr) {
     apply {
         packet.emit(hdr.ethernet);
         packet.emit(hdr.ipv4);
+        packet.emit(hdr.tcp); 
         packet.emit(hdr.udp);
     }
 }
