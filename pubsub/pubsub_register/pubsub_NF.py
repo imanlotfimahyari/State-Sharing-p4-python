@@ -22,6 +22,8 @@ from struct import pack as sp
 from struct import unpack as su
 import argparse
 import hashlib
+import select
+import traceback
 import sys
 from datetime import datetime as dt
 from scapy.all import *
@@ -53,13 +55,13 @@ init_NF_ID = 0 # init_NF_ID flag
 init_PUB_ID = 0 # init_PUB_ID flag
 init_SUB_ID = 0 # init_SUB_ID
 
-answer = 0 # flag of having the SUB_ID_answer from the REPLICA controller
-SUB_ID_ans = "-" # translation of SUB_ID_answer from the REPLICA controller
+answer = 0 # flag of having the SUB_ID_answer from the SDN controller
+SUB_ID_ans = "-" # translation of SUB_ID_answer from the SDN controller
 
 NF_sock = 0 # The socket object of the connection between NF and the Middle_Ware
-update_num = 0  # Update number for the variable_ID
+update_num = 0  # Update number for thevariable_ID
 
-sending_queue = [] # msg queue for sending data out of the NF through the TCP socket connected to the Middlle-Ware
+sending_queue = [] # msg queue for sending data out of the NFbthrough the TCP socket connected to the Middlle-Ware
 received_queue = [] # msg queue for received data from the TCP socket connected to the Middlle-Ware
 
 global_table_last_frame = {} # EXAMPLE => variable_id:[update_num,frag_tot,frag_num] => 12:[1,0,0], ...
@@ -152,7 +154,7 @@ def send_msg():
         try:
             out_msg = sending_queue.pop(0)
             NF_log("[OUT] <send_msg>", "MSG len({}), kind({})".format(su("H",out_msg[:2])[0],msg_kind(int(su("H",out_msg[2:4])[0]))))
-            print "[OUT] <send_msg> => sending msg with len({}), kind({})\n".format(su("H",out_msg[:2])[0],msg_kind(int(su("H",out_msg[2:4])[0])))
+            print "[OUT] <send_msg> => sending msg with len({}), kind({})".format(su("H",out_msg[:2])[0],msg_kind(int(su("H",out_msg[2:4])[0])))
             if len(out_msg)==int(su("H",out_msg[:2])[0]):
                 NF_sock.send(out_msg)
             else:
@@ -160,6 +162,8 @@ def send_msg():
         except IndexError:
             time.sleep(1)
             pass
+        except:
+            raise
 
 def receive_msg():
     global received_queue, NF_sock
@@ -193,7 +197,7 @@ def init_NF_MW_publish(NF):
     print "My NF_ID : global={}".format(NF_id)
     print "**********************************"
     NF_log("[INIT] <init_NF_MW_publish>","INIT_NF_ID :[DONE]")
-    # print "[INIT] <init_NF_MW_publish> INIT_NF_ID :[DONE]\n"
+    print "[INIT] <init_NF_MW_publish> INIT_NF_ID :[DONE]"
 
     # msg = Data length(2B)+Kind(2B)+NF_Global_ID(2B)+NF_NAME(nB)
     init_msg = sp("HHH", 6+len(variable_name), 1, NF_id)+"".join([sp("c", x) for x in variable_name])
@@ -206,7 +210,7 @@ def init_NF_MW_publish(NF):
     print "My Publish ID : {}".format(variable_id)
     print "**********************************"
     NF_log("[INIT] <init_NF_MW_publish>","PUB_VAR_ID :[DONE]")
-    # print "[INIT] <init_NF_MW_publish> PUB_VAR_ID :[DONE]\n"
+    print "[INIT] <init_NF_MW_publish> PUB_VAR_ID :[DONE]"
 
     time.sleep(5)
     publish_updates()
@@ -216,7 +220,7 @@ def msg_cleaner_handler():
 
     current_data = "" # empty for started
     NF_log("[INIT] <msg_cleaner_handler>",":[STARTED]")
-    print "[INIT] <msg_cleaner_handler> :[STARTED]\n"
+    print "[INIT] <msg_cleaner_handler> :[STARTED]"
     while True:
         try:
             current_data += received_queue.pop(0) # pop the first received chunk and add to the remained bytes (if any)
@@ -250,11 +254,14 @@ def msg_cleaner_handler():
                 #### PUBLISH MSG => (kind = 2)
                 ## kind(2B)+variable_id(4B)+update_num(2B)+frag_tot(2B)+frag_num(2B)+DATA(mB)
                 elif int(su("H",in_msg[2:4])[0])==2: # it is a publish
-                    NF_log("[IN] <msg_cleaner_handler>","Received PUBLISH => len({}), kind({})\
-                           ".format(su("H",in_msg[:2])[0],msg_kind(int(su("H",in_msg[2:4])[0]))))
+                    try:
+                        NF_log("[IN] <msg_cleaner_handler>","Received PUBLISH => len({}), kind({})\
+                               ".format(su("H",in_msg[:2])[0],msg_kind(int(su("H",in_msg[2:4])[0]))))
 
-                    print "[IN] <msg_cleaner_handler>","Received PUBLISH => len({}), kind({})\
-                          ".format(su("H",in_msg[:2])[0],msg_kind(int(su("H",in_msg[2:4])[0])))
+                        print "[IN] <msg_cleaner_handler>","Received PUBLISH => len({}), kind({})\
+                              ".format(su("H",in_msg[:2])[0],msg_kind(int(su("H",in_msg[2:4])[0])))
+                    except:
+                        pass
 
                     # checking if drop mark for "Variable_ID,update_num"
                     if (str(su("H",in_msg[6:8])[0])+","+str(su("H",in_msg[8:10])[0])) not in drop_update.keys():
@@ -328,7 +335,7 @@ def msg_cleaner_handler():
             time.sleep(1)
             pass
 
-def subscribe_on_variable(NF): # SUBSCRIBE 
+def subscribe_on_variable(NF): # --OK
     global NF_id, variable_name, var_names_IDs, answer, init_SUB_ID, SUB_ID_ans
 
     while not init_NF_ID:
@@ -336,7 +343,7 @@ def subscribe_on_variable(NF): # SUBSCRIBE
 
     if NF==3:
         variables = [x for x in sorted(var_names_IDs.keys()) if x!=variable_name]
-        for i in range(3):
+        for i in [0,1,2]:
             sub_var_name = variables[i]
             if var_names_IDs[sub_var_name]==0:
                 while not init_SUB_ID:
@@ -346,18 +353,16 @@ def subscribe_on_variable(NF): # SUBSCRIBE
                     NF_log("[NF] <subscribe_on_variable>","INIT SUB_VAR_ID msg made and added to sending_queue")
                     sending_queue.append(var_init_msg)
 
-                    while not answer: # wait for the answer from the REPLICA controller
+                    while not answer:
                         time.sleep(1)
 
-                    if SUB_ID_ans=="error": # there is no "variable_id" assigned to that "variable"
+                    if SUB_ID_ans=="error":
                         time.sleep(10)
                         sending_queue.append(var_init_msg)
-                        
                     elif SUB_ID_ans=="ok":
                         init_SUB_ID=1
-                        
                 NF_log("[INFO] <subscribe_on_variable>","SUB_VAR_ID : DONE")
-                print "[INFO] <subscribe_on_variable> : SUB_VAR_ID : DONE\n"
+                print "[INFO] <subscribe_on_variable> : SUB_VAR_ID : DONE"
 
             print "........... SUBSCRIBE ..........."
             print "Subscribing from < NF > : {} ".format(NF_id)
@@ -399,13 +404,16 @@ def main(NF):
 
     thr_receive.start()
     time.sleep(1)
+
     thr_send.start()
     time.sleep(1)
+
     thr_msg_handler.start()
     time.sleep(1)
 
     thr_init_publish.start()
     time.sleep(20)
+    
     thr_subscribe.start() # can be a function
 
     thr_send.join()
