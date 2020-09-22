@@ -37,17 +37,16 @@ actions for every `PubSub` packet:
 (iii) If it is a publish packet, the switch will checks the `L2-publish` table
     for any match to the `id` of the published `variable`, and if any,
     will `multicast` the packet to the ports which are written in that
-    mentioned register, otherwise drops the packet.
+    mentioned action value, otherwise drops the packet.
     
 
 The switch have a single IPv4 forwarding table, which the control plane
 will populate it with static rules for each topology. Each rule will map
 an IP address to the MAC address and output port for the next hop.
-Four registers for handling four variables, and a multicast table with one
-entry for the distribution tree, which the control plane will populate it with
-static rules for each topology.
+An empty `L2-publish` table which the embedded controller will populate 
+it dynamicaly with any subscribe request.
 
-Use thesingle switch topology for this design:
+Use the single switch topology for this design:
    <p align="center">
     <img src="./single-topo/single-topo.png" width="300" heigth="300" />
    </p>
