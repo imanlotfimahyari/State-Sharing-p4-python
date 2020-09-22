@@ -28,6 +28,21 @@ header ipv4_t {
     ipv4_addr_t dstAddr;
 }
 
+header tcp_t {
+    bit<16>  srcPrt;
+    bit<16>  dstPrt;
+    bit<32>  seqNo;
+    bit<32>  ackNo;
+    bit<4>   dataOffset;
+    bit<3>   res;
+    bit<3>   ecn;
+    bit<6>   ctrl;
+    bit<16>  window;
+    bit<16>  chksum;
+    bit<16>  urgentPtr;
+   
+}
+
 header udp_t {
     bit<16> srcPrt;
     bit<16> dstPrt;           // here 65432(0xff98) => ip.dst is pubsub header
@@ -50,6 +65,7 @@ struct local_metadata_t {
 struct headers {
     ethernet_t   ethernet;
     ipv4_t       ipv4;
+    tcp_t        tcp;
     udp_t        udp;
 }
 
