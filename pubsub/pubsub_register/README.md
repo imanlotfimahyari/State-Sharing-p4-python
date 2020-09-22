@@ -98,8 +98,8 @@ Start by bringing up our structure in the Mininet to test its behavior.
    mininet> xterm h1 h2 h3 h4
    ```
 
-4. Start the REPLICA controller in `h4` by running the
-   `./REPLICA_controller.py`, and start one MIDDLE-WARE in every
+4. First of all, start the REPLICA controller in `h4` by running the
+   `./REPLICA_controller.py`, then start one MIDDLE-WARE in every
    other hosts`(h1, h2 and h3)` by running `./pubsub_MW.py` in each of
    them. now you have a ready system for start the main goal.
 
