@@ -132,7 +132,7 @@ Start by bringing up our structure in the Mininet to test its behavior.
 8. In another terminal outside the Mininet(a regular terminal of the
    system) run this command:
    ```bash
-   bm_CLI --thrift-port 9090 --json build/pub_sub.json --pre SimpleSwitchLAG
+   bm_CLI --thrift-port 9090 --json build/pub_sub.json --pre SimplePreLAG
    ```
    You will see another command line, enter the bellow command and see
    the results:
