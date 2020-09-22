@@ -12,6 +12,7 @@ typedef bit<32> ipv4_addr_t;
 
 const bit<16> ETHER_TYPE_IPV4 = 0x0800;
 const bit<8> PROTO_UDP = 0x11;
+const bit<8> PROTO_TCP = 0x06;
 
 //const bit<32> TEST_VALUE = 1 ;
 
