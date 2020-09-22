@@ -58,7 +58,7 @@ A simple structure and its internal view is demonstrated here:
 * [Register-based solution](./pubsub/pubsub_register)
 
 2. By using an embedded controller with a regular match-action table
-* [Local embedded controller-based solution](./pubsub/pubsub_embedded controller)
+* [Local embedded controller-based solution](./pubsub/pubsub_embedded_controller)
 
 For starting with the P4 language, one can refer to the [P4 tutorial](https://github.com/p4lang/tutorials), prepared by the [P4.ORG](https://p4.org/) as a learning source.
 
