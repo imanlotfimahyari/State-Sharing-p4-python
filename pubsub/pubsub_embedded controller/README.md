@@ -85,7 +85,7 @@ Start by bringing up our structure in the Mininet to test its behavior.
 
 4. In another shell at the same address mentioned in `step(1)`, run:
    ```bash
-  sudo ./embd_controller_P4Runtime.py
+   sudo ./embd_controller_P4Runtime.py
    ```
    This will:
    * start the `embedded controller` comunicating through gRPC to the 
