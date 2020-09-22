@@ -89,7 +89,7 @@ Start by bringing up our structure in the Mininet to test its behavior.
    ```
    This will:
    * start the `embedded controller` comunicating through gRPC to the 
-   switch and listening for `Packet-IN` from port 255 from the switch.
+   switch and listening for `Packet-IN` from port 255 of the switch.
    * Adds, removes entries from the `L2-publish` table or modify them
    based on the request in `Packet-IN`.
 
