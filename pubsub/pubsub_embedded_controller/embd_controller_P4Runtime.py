@@ -239,51 +239,6 @@ def main(p4info_file_path, bmv2_file_path, sw_num):
 
     ShutdownAllSwitchConnections()
 
-#     # # TEST
-#     has_match = False
-#     if not old_table["table_entries"]:
-#         if my_action=="add":
-#             old_value=""
-#             mc_grp_id = make_mc_grp_id(port=my_in_port, old_value=old_value, action=my_action)
-#             writeL2Publish(p4info_helper, sw=s1, topic_id=my_topic_id, mc_grp_id=mc_grp_id)
-#             ## make MULTICAST GROUP changes
-#     else:
-#         for entry in old_table["table_entries"]:
-#             # if "table" in entry.keys() and entry["table"]=="MyIngress.L2_forward":
-#             # if "match" in entry.keys() and "local_metadata.pubsub_indx" in entry["match"].keys():
-#             if entry["match"]["local_metadata.pubsub_indx"]==my_topic_id:
-#                 old_value =  entry["action_params"]["mc_grp_id"]
-#                 mc_grp_id = make_mc_grp_id(port=my_in_port, old_value=old_value, action=my_action)
-#                 if mc_grp_id == 0:
-#                     removeL2Publish(p4info_helper, sw=s1, topic_id=my_topic_id, mc_grp_id=mc_grp_id)
-#                     ## make MULTICAST GROUP changes
-#                 else:
-#                     modifyL2Publish(p4info_helper, sw=s1, topic_id=my_topic_id, mc_grp_id=mc_grp_id)
-#                     ## make MULTICAST GROUP changes
-#                 has_match = True
-#                 break
-#         if has_match == False and my_action=="add":
-#             old_value=""
-#             mc_grp_id = make_mc_grp_id(port=my_in_port, old_value=old_value, action=my_action)
-#             writeL2Publish(p4info_helper, sw=s1, topic_id=my_topic_id, mc_grp_id=mc_grp_id)
-#             ## make MULTICAST GROUP changes
-#
-# def make_mc_grp_id(port_mask, old_value, action):
-#     mc_grp_id=0
-#     if not old_value:
-#         old_value=0
-#     if action=="add":
-#         mc_grp_id1=port_mask|old_value
-#     elif action=="remove":
-#         mc_grp_id1=(~port_mask)&old_value
-#     mc_grp_id=hex(mc_grp_id1)
-#     return mc_grp_id
-#
-# def removeL2Publish():
-#     print "remove entry not developed"
-#
-# def modifyL2Publish():
-#     print "modify entry not developed"
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='P4Runtime Controller')
