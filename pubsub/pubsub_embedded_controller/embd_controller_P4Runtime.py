@@ -177,9 +177,9 @@ def main(p4info_file_path, bmv2_file_path, sw_num):
         '''
         switch.MasterArbitrationUpdate()
         print "Master arbitration done..."
-        readTableRules(p4info_helper, switch, None)
-        print
-        print " <<<< CONTROLLER READEY! WAITING FOR PACKET_IN >>>> "
+#         readTableRules(p4info_helper, switch, None)
+#         print
+        print "<<<< CONTROLLER READEY! WAITING FOR PACKET_IN >>>>"
         while True:
             ''' USING P4RUNTIME AS RECEIVER FOR PACKET_IN IN THE EMBEDDED CONTROLLER '''
             packetin = switch.PacketIn()
@@ -187,7 +187,7 @@ def main(p4info_file_path, bmv2_file_path, sw_num):
                 packet, pkt_in_metadata, input_port, var_id = packet_in_metadata(packetin)
                 input_port_mask = port_mask(input_port)
 
-                print "BEFORE WRITING"
+                print ">>>> Reading current entries in \"MyIngress.L2_publish\" table before updating >>>>"
                 current_table = readTableRules(p4info_helper, switch, "MyIngress.L2_publish")
                 print
 
@@ -201,15 +201,15 @@ def main(p4info_file_path, bmv2_file_path, sw_num):
                     found=False
                     for tbl_entry in current_table:
                         tmp_match_value = '\x00'+tbl_entry['match']['local_metadata.pubsub_indx'][0]
-                        if su("!I",tmp_match_value)==var_id:
+                        if su("!I",tmp_match_value)[0]==var_id:
                             old_mc_grp_id = su("!H", tbl_entry['action_params']['st_mc_grp'])
-                            new_mc_grp_id = old_mc_grp_id | input_port_mask
+                            new_mc_grp_id = int(old_mc_grp_id[0]) | input_port_mask
                             try:
                                 ## DELETE and WRITE
+                                print "MODIFY(Delete and Write) for ", var_id, " from ", old_mc_grp_id, " to ", new_mc_grp_id
                                 deleteL2Publish(p4info_helper, switch, var_id, old_mc_grp_id)
                                 writeL2Publish(p4info_helper, switch, var_id, new_mc_grp_id)
-                                ## OR
-                                ## MODIFY
+                                ## OR MODIFY
                                 # modifyL2Publish(p4info_helper, switch, var_id, new_mc_grp_id)
                             except:
                                 print "\nproblem writing table for them!\n"
@@ -232,8 +232,11 @@ def main(p4info_file_path, bmv2_file_path, sw_num):
                 }
             )
             print "Donig PacketOut.\n"
+            # my_packet_out_dup=copy.deepcopy(my_packet_out)
+            # switch.PacketOut(my_packet_out_dup)
             switch.PacketOut(my_packet_out)
-            print "PacketOut Done.\n"
+            print "PacketOut Done."
+            print "==============================================\n"
 
     except KeyboardInterrupt:
         # using ctrl + c to exit
