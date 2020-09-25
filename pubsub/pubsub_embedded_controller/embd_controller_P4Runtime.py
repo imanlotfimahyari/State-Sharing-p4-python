@@ -229,6 +229,8 @@ def main(p4info_file_path, bmv2_file_path, sw_num):
             #     payload = packet,
             #     metadata = {
             #         1: pkt_in_metadata[1]
+            #     }
+            #)
 
     except KeyboardInterrupt:
         # using ctrl + c to exit
