@@ -222,18 +222,18 @@ def main(p4info_file_path, bmv2_file_path, sw_num):
                         except:
                             print "\nproblem writing table for them!\n"
                             raise
-            # '''
-            # USING P4RUNTIME FOR PACKET_OUT IN THE CONTROLLER
-            # '''
-            # my_packet_out = p4info_helper.buildPacketOut(
-            #     payload = packet,
-            #     metadata = {
-            #         1: pkt_in_metadata[1]
-            #     }
-            #)
-            # print "Donig PacketOut.\n"
-            # switch.PacketOut(my_packet_out)
-            # print "PacketOut Done.\n"
+            '''
+            USING P4RUNTIME FOR PACKET_OUT IN THE CONTROLLER
+            '''
+            my_packet_out = p4info_helper.buildPacketOut(
+                payload = packet,
+                metadata = {
+                    1: pkt_in_metadata[1]
+                }
+            )
+            print "Donig PacketOut.\n"
+            switch.PacketOut(my_packet_out)
+            print "PacketOut Done.\n"
 
     except KeyboardInterrupt:
         # using ctrl + c to exit
