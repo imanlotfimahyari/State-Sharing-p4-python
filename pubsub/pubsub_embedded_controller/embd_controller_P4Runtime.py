@@ -229,14 +229,6 @@ def main(p4info_file_path, bmv2_file_path, sw_num):
             #     payload = packet,
             #     metadata = {
             #         1: pkt_in_metadata[1]
-            # # EXAMPLE...
-            # #         1: port_map[pkt_eth_dst],
-            # #         2: "\000\000"
-            #     }
-            # )
-            # print "Doing PacketOut.\n"
-            # switch.PacketOut(my_packet_out)
-            # print "PacketOut Done.\n"
 
     except KeyboardInterrupt:
         # using ctrl + c to exit
