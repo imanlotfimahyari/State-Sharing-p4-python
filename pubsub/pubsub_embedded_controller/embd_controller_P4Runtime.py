@@ -231,6 +231,9 @@ def main(p4info_file_path, bmv2_file_path, sw_num):
             #         1: pkt_in_metadata[1]
             #     }
             #)
+            # print "Donig PacketOut.\n"
+            # switch.PacketOut(my_packet_out)
+            # print "PacketOut Done.\n"
 
     except KeyboardInterrupt:
         # using ctrl + c to exit
