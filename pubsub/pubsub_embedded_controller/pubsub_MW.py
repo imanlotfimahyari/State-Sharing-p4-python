@@ -509,8 +509,15 @@ def send_data_middleware():# sending packets to network
             elif kind in [0,1,5]: # init_VNF, pub_variable_id_request, sub_variable_id_request
                 var_id = 0
 
-            ## making proper destination and sending the msg
+            ## Making proper destination
             dest_addr = (pubSubIP(var_id, kind),65432)
+            
+            # Due to some inconsistency between the switch and the embedded controller we send 2 packets
+            if kind in [3,4]:
+                out_msg_dup = copy.deepcopy(out_msg)
+                dup_send = send_mw_sock.sendto(out_msg_dup, dest_addr)
+                
+            ## Sending the msg
             sent = send_mw_sock.sendto(out_msg, dest_addr)
 
         except IndexError:
