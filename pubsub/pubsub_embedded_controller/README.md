@@ -94,7 +94,7 @@ Start by bringing up our structure in the Mininet to test its behavior.
 
 
 5. Now, first start the REPLICA controller in `h4` by running the
-   `./REPLICA_controller.py`, then start one MIDDLE-WARE in every
+   `./REPLICA_controller.py`, then start one `middleware` in every
    other hosts`(h1, h2 and h3)` by running `./pubsub_MW.py` in each of
    them. now you have a ready system for start the main goal.
 
@@ -105,11 +105,11 @@ Start by bringing up our structure in the Mininet to test its behavior.
    ```
 
 7. For simplicity, in each of the three new terminals, start the
-   PUBSUB-NF by running `./pubsub_NF.py --n X`, which `X` is `(0, 1 and 2)`
+   VNFs by running `./pubsub_NF.py --n X`, which `X` is `(0, 1 and 2)`
    for each host respectively.
    e.g. `./pubsub_NF.py --n 0` in `h1`, `./pubsub_NF.py --n 1` in `h2` and
    `./pubsub_NF.py --n 2` in `h3`. You will see ID assignments for the
-   NFs and their PUBLISH variables, wait until all of the three NFs
+   NFs and their PUBLISH variables, wait until all of the three VNFs
    start to PUBLISH.
 
 8. From the Mininet prompt start only one terminal in one of the
@@ -118,11 +118,11 @@ Start by bringing up our structure in the Mininet to test its behavior.
    mininet> xterm hx
    ```
    Where `x` is one of the `(1, 2 and 3)`, you should have 8 terminals by now.
-   Start another NF by running `./pubsub_NF.py --n 3` inside this terminal. 
-   You will see the same procedure for this NF too. But after starting to
+   Start another VNF by running `./pubsub_NF.py --n 3` inside this terminal. 
+   You will see the same procedure for this VNF too. But after starting to
    PUBLISH on its variable,it starts to ask for the id of the some other variables,
    and eventually subscribing on them in the switches. You will see that this 
-   NF is receiving the other NF publishes for the variables it requested.
+   NF is receiving the other VNF publishes for the variables it requested.
 
 9. In another terminal outside the Mininet(a regular terminal of the
    system) run this command:
@@ -152,7 +152,7 @@ Start by bringing up our structure in the Mininet to test its behavior.
 
 ### A note about the logs
 
-By starting the REPLICA controller, MIDDLE-WAREs and the NFs, they build
+By starting the REPLICA controller, MIDDLEWAREs and the VNFs, they build
 a log file containing a simplified details about what is happening inside
 them. An external copy of the data for each published variable and for
 each received publish can be found there to trace the correctness of the
