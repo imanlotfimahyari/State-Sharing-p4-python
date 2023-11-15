@@ -2,12 +2,12 @@
 
 ## Motivation
 
-Advanced network applications are based on stateful VNFs, i.e., an internal state is kept within the VNF during traffic operations. Typical examples are traffic classifiers, traffic shapers, and firewalls. Scaling such network applications for large networks and/or for high data rates requires replicating the same VNF into different servers and distributing the traffic across all the instances of the VNF. This coordination between VNFs requires that the internal state should be shared across the replicas. As a toy example consider a Distributed Denial-of-Service (DDoS) detection application in which many replicas of the same VNF are distributed at different ingress routers of a network. The detection is based on evaluating the overall traffic entering the network from all edge routers. This application requires sharing the metrics of the local traffic among the VNF replicas in order to compute the network-wide traffic. A possible solution for state replication would be to implement a standard replication protocol directly in the VNF (like Paxos, RAFT, etc), but this requires loading the VNF with this replication process, which can be quite complex and computation-intensive.
-An alternative solution is to leverage a stateful data plane, e.g., based on P4. This implies that the state replication is offloaded from the VNFs to the P4 switches, which take the responsibility of coordinating the exchange of replication messages between VNFs, with a beneficial effect on the VNF load and thus on the overall scalability.
-In particular, the 5G EVE project is investigating how to implement a publish-subscribe scheme directly on P4 switches, according to which the VNFs can publish the updates on their internal states and can subscribe on the updates from the other VNFs. This allows to achieve a state replication which is light for the VNFs and that exploits the high processing speed of P4 switches.  
+Advanced network applications are based on stateful VNFs, i.e., an internal state is kept within the VNF during traffic operations. Typical examples are traffic classifiers, traffic shapers, and firewalls. Scaling such network applications for large networks and/or for high data rates requires replicating the same VNF onto different servers and distributing the traffic across all the instances of the VNF. This coordination between VNFs requires that the internal state should be shared across the replicas. As a toy example, consider a Distributed Denial-of-Service (DDoS) detection application in which many replicas of the same VNF are distributed at different ingress routers of a network. The detection is based on evaluating the overall traffic entering the network from all edge routers. This application requires sharing the metrics of the local traffic among the VNF replicas in order to compute the network-wide traffic. A possible solution for state replication would be to implement a standard replication protocol directly in the VNF (like Paxos, RAFT, etc.), but this requires loading the VNF with this replication process, which can be quite complex and computation-intensive.
+An alternative solution is to leverage a stateful data plane, e.g., based on P4. This implies that state replication is offloaded from the VNFs to the P4 switches, which take the responsibility of coordinating the exchange of replication messages between VNFs, with a beneficial effect on the VNF load and thus on the overall scalability.
+In particular, the 5G EVE project is investigating how to implement a publish-subscribe scheme directly on P4 switches, according to which the VNFs can publish the updates on their internal states and can subscribe on the updates from the other VNFs. This allows for state replication, which is light for the VNFs and exploits the high processing speed of P4 switches.  
 
 This work has been supported through the [5G EVE Project](https://www.5g-eve.eu/), 
-i.e., the European 5G validation platform for extensive trials, funded by the European Horizon 2020 Programme for research, technological development and demonstration (grant agreement n.815074). 
+i.e., the European 5G validation platform for extensive trials, funded by the European Horizon 2020 Programme for research, technological development, and demonstration (grant agreement n.815074). 
 
 
 
@@ -37,7 +37,7 @@ by the other three Network Functions. The P4 switch is responsible for doing the
 registrations and forward the publish packets to the subscribers.
 
 **HINT:**
-In this example, the subscriber Network Function is sharing its host with one of 
+In this example, the subscriber Network Function shares its host with one of 
 the publisher Network Functions. As the subscriber Network Function is subscribing 
 on the variable of this publisher Network Function, do we need to route the 
 published data to the P4 switch and then again to the same host? 
@@ -68,8 +68,8 @@ The environment for running and the instructions for this part
 is derived from the [P4 tutorial](https://github.com/p4lang/tutorials).
 
 To run the proposed solutions, you will need to either build a
-virtual machine or install several dependencies. If the first approach failed
-due to any error, try to use an Ubuntu 16.04 machine and use the the second 
+virtual machine or install several dependencies. If the first approach fails
+due to any error, try to use an Ubuntu 16.04 machine and use the second 
 approach to install the dependencies.
 
 
