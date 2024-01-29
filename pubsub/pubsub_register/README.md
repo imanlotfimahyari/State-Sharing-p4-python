@@ -17,7 +17,7 @@ for every normal packet which is not one of our special kinds:
 
 (ii) decrement the time-to-live (TTL) in the IP header.
 
-(iii) forward the packet out the appropriate port.
+(iii) forward the packet out to the appropriate port.
 
 
 With `subIndxPort` registers, the switch must perform the following
@@ -32,14 +32,14 @@ actions for every `PubSub` packet:
     `Distribution tree` that is already prepared by the main controller
     in the switch.
     
-(iii) If it is a publish packet, the switch will checks the the internal
-    register with index equal to the `id` of the published `variable`, and
+(iii) If it is a publish packet, the switch will check the the internal
+    register with an index equal to the `id` of the published `variable`, and
     will `multicast` the packet to the ports which are written in that
     mentioned register, otherwise drops the packet.
     
 
-The switch have a single IPv4 forwarding table, which the control plane
-will populate it with static rules for each topology. Each rule will map
+The switch has a single IPv4 forwarding table, which the control plane
+will populate with static rules for each topology. Each rule will map
 an IP address to the MAC address and output port for the next hop.
 Four registers for handling four variables, and a multicast table with one
 entry for the distribution tree, which the control plane will populate it with
@@ -100,8 +100,8 @@ Start by bringing up our structure in the Mininet to test its behavior.
 
 4. First of all, start the REPLICA controller in `h4` by running the
    `./REPLICA_controller.py`, then start one MIDDLE-WARE in every
-   other hosts`(h1, h2 and h3)` by running `./pubsub_MW.py` in each of
-   them. now you have a ready system for start the main goal.
+   other hosts`(h1, h2, and h3)` by running `./pubsub_MW.py` in each of
+   them. now you have a ready system to start the main goal.
 
 5. Except for the `h4`, open one terminal in each other hosts`(h1, h2
    and h3)` by doing in the Mininet prompt:
@@ -125,8 +125,8 @@ Start by bringing up our structure in the Mininet to test its behavior.
    Where `x` is one of the `(1, 2 and 3)`, you should have 8 terminals by now.
    Start another NF by running `./pubsub_NF.py --n 3` inside this terminal. 
    You will see the same procedure for this NF too. But after starting to
-   PUBLISH on its variable,it starts to ask for the id of the some other variables,
-   and eventually subscribing on them in the switches. You will see that this 
+   PUBLISH on its variable, it starts to ask for the id of some other variables
+   and eventually subscribes to them in the switches. You will see that this 
    NF is receiving the other NF publishes for the variables it requested.
 
 8. In another terminal outside the Mininet(a regular terminal of the
@@ -134,7 +134,7 @@ Start by bringing up our structure in the Mininet to test its behavior.
    ```bash
    bm_CLI --thrift-port 9090 --json build/pub_sub.json --pre SimplePreLAG
    ```
-   You will see another command line, enter the bellow command and see
+   You will see another command line, enter the below command and see
    the results:
    ```bash
    register_read subIndxPort
@@ -144,9 +144,9 @@ Start by bringing up our structure in the Mininet to test its behavior.
    the numbers are the multicast groups assigned to those registers. The ids 
    for the variables are assigned by the REPLICA controller.
    
-   **Important:** if you are using the toplogies with more than one switch, for
+   **Important:** If you are using the topologies with more than one switch, for
    each switch in the topology you should repeat this part, noticing that for the `S1`
-   the thrift port is `9090` and for the rest one should use `9091` for `S2` and `9092` for `S3`.
+   the thrift port is `9090` and for the rest, one should use `9091` for `S2` and `9092` for `S3`.
 
 8. In the Mininet command line type `exit` to close all the xterminals.
    Then, to stop mininet:
@@ -160,8 +160,8 @@ Start by bringing up our structure in the Mininet to test its behavior.
 
 ### A note about the logs
 
-By starting the REPLICA controller, MIDDLE-WAREs and the NFs, they build
-a log file containing a simplified details about what is happening inside
+By starting the REPLICA controller, MIDDLE-WAREs, and the NFs, they build
+a log file containing simplified details about what is happening inside
 them. An external copy of the data for each published variable and for
 each received publish can be found there to trace the correctness of the
 algorithm.
