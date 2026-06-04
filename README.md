@@ -1,5 +1,29 @@
 # State Sharing with P4
 
+# State Sharing with P4
+
+Research prototype demonstrating how P4-programmable switches can support publish/subscribe-style state sharing between replicated network functions.
+
+## What this project demonstrates
+
+- P4-based publish/subscribe forwarding logic
+- State sharing between replicated VNFs
+- Register-based data-plane implementation
+- Embedded-controller-based table programming
+- Mininet/BMv2 test topologies
+- Python-based network function, middleware, and replica-controller components
+
+## Status
+
+This is a completed research prototype. It is kept public as a technical demonstration of P4, SDN/NFV, and programmable data-plane concepts. The environment is based on legacy P4 tutorial tooling and may require older dependencies.
+
+## Implementations
+
+| Implementation | Description |
+|---|---|
+| Register-based | Uses internal P4 registers to track subscriptions and multicast published updates. |
+| Embedded-controller-based | Uses Packet-IN/P4Runtime-style controller logic to update a publish/subscribe table dynamically. |
+
 ## Motivation
 
 Advanced network applications are based on stateful VNFs, i.e., an internal state is kept within the VNF during traffic operations. Typical examples are traffic classifiers, traffic shapers, and firewalls. Scaling such network applications for large networks and/or for high data rates requires replicating the same VNF onto different servers and distributing the traffic across all the instances of the VNF. This coordination between VNFs requires that the internal state should be shared across the replicas. As a toy example, consider a Distributed Denial-of-Service (DDoS) detection application in which many replicas of the same VNF are distributed at different ingress routers of a network. The detection is based on evaluating the overall traffic entering the network from all edge routers. This application requires sharing the metrics of the local traffic among the VNF replicas in order to compute the network-wide traffic. A possible solution for state replication would be to implement a standard replication protocol directly in the VNF (like Paxos, RAFT, etc.), but this requires loading the VNF with this replication process, which can be quite complex and computation-intensive.
