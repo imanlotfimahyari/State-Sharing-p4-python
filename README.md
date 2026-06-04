@@ -1,7 +1,5 @@
 # State Sharing with P4
 
-# State Sharing with P4
-
 Research prototype demonstrating how P4-programmable switches can support publish/subscribe-style state sharing between replicated network functions.
 
 ## What this project demonstrates
